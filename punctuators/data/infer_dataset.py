@@ -58,12 +58,14 @@ class TextInferenceDataset(Dataset):
         self,
         texts: List[str],
         spe_model_path: str,
+        spe_model,
         batch_size_tokens: int = 4096,
         max_length: int = 512,
         overlap: int = 32,
     ):
         super().__init__()
-        self._spe_model: SentencePieceProcessor = SentencePieceProcessor(spe_model_path)  # noqa
+        # self._spe_model: SentencePieceProcessor = SentencePieceProcessor(spe_model_path)  # noqa
+        self._spe_model: SentencePieceProcessor = spe_model
         self._segments: List[TokenizedSegment] = self._tokenize_inputs(texts=texts, max_len=max_length, overlap=overlap)
         self._sampler = TokenBatchSampler(segments=self._segments, batch_size_tokens=batch_size_tokens)
 
